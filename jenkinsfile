@@ -1,28 +1,32 @@
 pipeline {
   agent any
+  
   tools {
-    git 'Git'
-    nodejs "nodejs-16.13.0"
-    }
-
+    nodejs "node"
+  }
+  
   stages {
-    stage('Build') {
+    stage('Checkout') {
       steps {
-        sh 'npm install'
-        sh 'npm run build'
+        git branch: 'master', url: 'https://github.com/Bharathi24-Priya/my-react-project.git'
       }
     }
 
-    stage('Test') {
+    stage('Install Dependencies') {
       steps {
-        sh 'npm run test'
+        bat 'npm install'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        bat 'npm run build'
       }
     }
 
     stage('Deploy') {
       steps {
-        sh 'npm install -g serve'
-        sh 'serve -s build'
+        bat 'echo "Deploying..."'
       }
     }
   }
